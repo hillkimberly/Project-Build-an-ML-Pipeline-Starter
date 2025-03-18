@@ -60,6 +60,35 @@ def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_th
     assert scipy.stats.entropy(dist1, dist2, base=2) < kl_threshold
 
 
+### KIM: TRYING TO FIGURE OUT WHY kl_threshold is not being passed correctly from MLflow pipeline. 
+def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_threshold: float):
+    print(f"DEBUG: Received kl_threshold = {kl_threshold} (type: {type(kl_threshold)})")  # Add this line
+
+    dist1 = data['neighbourhood_group'].value_counts().sort_index()
+    dist2 = ref_data['neighbourhood_group'].value_counts().sort_index()
+
+    assert scipy.stats.entropy(dist1, dist2, base=2) < kl_threshold
+
+
+
 ########################################################
 # Implement here test_row_count and test_price_range   #
 ########################################################
+def test_row_count(data):
+    print(f"DEBUG: Dataset row count = {data.shape[0]}")
+    assert 15000 < data.shape[0] < 1000000
+
+def test_price_range(data, min_price, max_price):
+    # Apply filtering just for testing (without modifying the original dataset)
+    filtered_data = data[(data['price'] >= min_price) & (data['price'] <= max_price)]
+
+    out_of_range = filtered_data[~filtered_data['price'].between(min_price, max_price)]
+
+    if not out_of_range.empty:
+        print(f"DEBUG: Found {len(out_of_range)} rows outside range [{min_price}, {max_price}].")
+        print(out_of_range[['id', 'price']].head(20))  # Show sample of failing data
+
+    assert out_of_range.empty, f"Found {len(out_of_range)} rows with out-of-range prices."
+
+
+
