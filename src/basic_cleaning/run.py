@@ -43,6 +43,9 @@ def go(args):
     # ✅ After boundary filtering
     print(f"✅ After filtering: {df.shape[0]} rows")
 
+    # ✅ Print data types of longitude and latitude before running the boundary test
+    print("\n📊 Checking data types before boundary test:")
+    print(df[['longitude', 'latitude']].dtypes) 
 
     def test_proper_boundaries(data: pd.DataFrame):
         """
@@ -62,8 +65,13 @@ def go(args):
             print(failing_rows[['id', 'longitude', 'latitude']])  # Print only relevant columns
             print(f"\n🚨 Total failing rows: {len(failing_rows)}")
 
-        # Assert to fail if any out-of-bounds rows exist
-        assert np.sum(~idx) == 0, "❌ There are still out-of-bounds rows after filtering!"
+            # Save the failing rows to a CSV for manual inspection
+            failing_rows.to_csv("failing_rows.csv", index=False)
+            print("\n📂 Saved failing rows to 'failing_rows.csv' for debugging.")
+
+    # Assert to fail if any out-of-bounds rows exist
+    assert np.sum(~idx) == 0, "❌ There are still out-of-bounds rows after filtering!"
+
 
 
     # ✅ Run boundary test to make sure filtering worked
