@@ -48,7 +48,7 @@ def go(args):
 
     # ✅ Print data types of longitude and latitude before running the boundary test
     print("\n📊 Checking data types before boundary test:")
-    print(df[['longitude', 'latitude']].dtypes) 
+    print(df[['longitude', 'latitude']].dtypes)
 
     def test_proper_boundaries(data: pd.DataFrame):
         """
@@ -72,12 +72,17 @@ def go(args):
             failing_rows.to_csv("failing_rows.csv", index=False)
             print("\n📂 Saved failing rows to 'failing_rows.csv' for debugging.")
 
-    # Assert to fail if any out-of-bounds rows exist
-    assert np.sum(~idx) == 0, "❌ There are still out-of-bounds rows after filtering!"
+    # Print details of failing rows before assertion
+    failing_rows = df[~idx]  # ✅ Fixed indentation
 
-    # ✅ Print data types of longitude and latitude before running the boundary test
-    print("\n📊 Checking data types before boundary test:")
-    print(df[['longitude', 'latitude']].dtypes)
+    if not failing_rows.empty:  # ✅ Fixed indentation
+        print("\n🚨🚨🚨 Failing Rows After Filtering 🚨🚨🚨")
+        print(failing_rows[['id', 'longitude', 'latitude']])
+        print(f"\n🚨 Total failing rows: {len(failing_rows)}")
+        failing_rows.to_csv("failing_rows_after_filtering.csv", index=False)
+        print("\n📂 Saved failing rows to 'failing_rows_after_filtering.csv' for debugging.")
+
+    assert failing_rows.empty, "❌ There are still out-of-bounds rows after filtering!"
 
     # ✅ Print min/max values to confirm dataset range
     print("\n📌 Min/Max Values Before Filtering:")
@@ -95,10 +100,6 @@ def go(args):
     print(f"Latitude: min={df['latitude'].min()}, max={df['latitude'].max()}")
 
     # ✅ Run boundary test
-    test_proper_boundaries(df)
-
-
-    # ✅ Run boundary test to make sure filtering worked
     test_proper_boundaries(df)
 
     # Save the cleaned file
