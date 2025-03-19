@@ -40,15 +40,20 @@ def go(args):
         Test proper longitude and latitude boundaries for properties in and around NYC.
         If failing rows exist, print them for debugging.
         """
+        print("\n🚀 Checking property boundaries...")
+
+        # Create boolean mask for rows within the valid range
         idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.5, 41.2)
-    
-        failing_rows = data[~idx]  # Find rows that fail the test
+
+        # Find failing rows (out-of-bounds properties)
+        failing_rows = data[~idx]
 
         if not failing_rows.empty:
             print("\n🚨🚨🚨 Failing Rows 🚨🚨🚨")
-            print(failing_rows)
+            print(failing_rows[['longitude', 'latitude']])  # Print only the relevant columns
             print(f"\n🚨 Total failing rows: {len(failing_rows)}")
-    
+
+        # Assert to fail if any out-of-bounds rows exist
         assert np.sum(~idx) == 0, "❌ There are still out-of-bounds rows after filtering!"
 
 
