@@ -30,6 +30,9 @@ def go(args):
     # Convert last_review to datetime
     df['last_review'] = pd.to_datetime(df['last_review'])
 
+    # ✅ Drop NaNs in longitude and latitude BEFORE filtering
+    df = df.dropna(subset=['longitude', 'latitude'])
+
     # ✅ Before boundary filtering
     print(f"🚀 Before filtering: {df.shape[0]} rows")
 
