@@ -30,6 +30,8 @@ def go(args):
     # Convert last_review to datetime
     df['last_review'] = pd.to_datetime(df['last_review'])
 
+
+
     # ✅ Drop NaNs in longitude and latitude BEFORE filtering
     df = df.dropna(subset=['longitude', 'latitude'])
 
@@ -72,6 +74,27 @@ def go(args):
     # Assert to fail if any out-of-bounds rows exist
     assert np.sum(~idx) == 0, "❌ There are still out-of-bounds rows after filtering!"
 
+    # ✅ Print data types of longitude and latitude before running the boundary test
+    print("\n📊 Checking data types before boundary test:")
+    print(df[['longitude', 'latitude']].dtypes)
+
+    # ✅ Print min/max values to confirm dataset range
+    print("\n📌 Min/Max Values Before Filtering:")
+    print(f"Longitude: min={df['longitude'].min()}, max={df['longitude'].max()}")
+    print(f"Latitude: min={df['latitude'].min()}, max={df['latitude'].max()}")
+
+    # ✅ Print count of NaNs before filtering
+    print("\n🛑 Checking for NaN values before filtering:")
+    print(df[['longitude', 'latitude']].isna().sum())
+
+    # ✅ Print after filtering
+    print("\n✅ After filtering:")
+    print(f"Remaining rows: {df.shape[0]}")
+    print(f"Longitude: min={df['longitude'].min()}, max={df['longitude'].max()}")
+    print(f"Latitude: min={df['latitude'].min()}, max={df['latitude'].max()}")
+
+    # ✅ Run boundary test
+    test_proper_boundaries(df)
 
 
     # ✅ Run boundary test to make sure filtering worked
