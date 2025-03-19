@@ -34,21 +34,22 @@ def go(args):
     idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
     df = df[idx].copy()  # This actually removes out-of-bound rows
 
-    # ✅ Function to check if filtering worked correctly
-    def test_proper_boundaries(data: pd.DataFrame):
-        """
-        Test proper longitude and latitude boundaries for properties in and around NYC
-        """
-        print(f"Before filtering: {data.shape}")
+    # ✅ Function to check if filtering worked correctlydef test_proper_boundaries(data: pd.DataFrame):
+    """
+    Test proper longitude and latitude boundaries for properties in and around NYC.
+    If failing rows exist, print them for debugging.
+    """
+    idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.5, 41.2)
+    
+    failing_rows = data[~idx]  # Find rows that fail the test
 
-        idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.5, 41.2)
-        failing_rows = data[~idx]  # Find rows that fail
+    if not failing_rows.empty:
+        print("\n🚨🚨🚨 Failing Rows 🚨🚨🚨")
+        print(failing_rows)
+        print(f"\n🚨 Total failing rows: {len(failing_rows)}")
+    
+    assert np.sum(~idx) == 0, "❌ There are still out-of-bounds rows after filtering!"
 
-        if not failing_rows.empty:
-            print(f"🚨 Failing rows:\n{failing_rows}")  # Print them out
-            print(f"🚨 Number of failing rows: {len(failing_rows)}")
-
-        assert np.sum(~idx) == 0, "❌ There are still out-of-bounds rows after filtering!"
 
     # ✅ Run boundary test to make sure filtering worked
     test_proper_boundaries(df)
