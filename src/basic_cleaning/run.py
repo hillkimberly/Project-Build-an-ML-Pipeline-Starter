@@ -30,15 +30,28 @@ def go(args):
     # Convert last_review to datetime
     df['last_review'] = pd.to_datetime(df['last_review'])
 
-    # idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
-    # df = df[idx].copy()
-
-    ## KIM CODE: DON'T UNDERSTAND PROBLEM WITH IDX  
-    print(f"Before filtering: {df.shape}")
+     # ✅ Apply boundary filtering for NYC
     idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
-    df = df[idx].copy()
-    print(f"After filtering: {df.shape}")
+    df = df[idx].copy()  # This actually removes out-of-bound rows
 
+    # ✅ Function to check if filtering worked correctly
+    def test_proper_boundaries(data: pd.DataFrame):
+        """
+        Test proper longitude and latitude boundaries for properties in and around NYC
+        """
+        print(f"Before filtering: {data.shape}")
+
+        idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.5, 41.2)
+        failing_rows = data[~idx]  # Find rows that fail
+
+        if not failing_rows.empty:
+            print(f"🚨 Failing rows:\n{failing_rows}")  # Print them out
+            print(f"🚨 Number of failing rows: {len(failing_rows)}")
+
+        assert np.sum(~idx) == 0, "❌ There are still out-of-bounds rows after filtering!"
+
+    # ✅ Run boundary test to make sure filtering worked
+    test_proper_boundaries(df)
 
     # Save the cleaned file
     df.to_csv('clean_sample.csv',index=False)
