@@ -30,11 +30,17 @@ def go(args):
     # Convert last_review to datetime
     df['last_review'] = pd.to_datetime(df['last_review'])
 
-     # ✅ Apply boundary filtering for NYC
-    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
-    df = df[idx].copy()  # This actually removes out-of-bound rows
+    # ✅ Before boundary filtering
+    print(f"🚀 Before filtering: {df.shape[0]} rows")
 
-    # ✅ Function to check if filtering worked correctlydef test_proper_boundaries(data: pd.DataFrame):
+    # ✅ Apply boundary filtering for NYC
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()  # This should remove out-of-bound rows
+
+    # ✅ After boundary filtering
+    print(f"✅ After filtering: {df.shape[0]} rows")
+
+
     def test_proper_boundaries(data: pd.DataFrame):
         """
         Test proper longitude and latitude boundaries for properties in and around NYC.
@@ -50,7 +56,7 @@ def go(args):
 
         if not failing_rows.empty:
             print("\n🚨🚨🚨 Failing Rows 🚨🚨🚨")
-            print(failing_rows[['longitude', 'latitude']])  # Print only the relevant columns
+            print(failing_rows[['id', 'longitude', 'latitude']])  # Print only relevant columns
             print(f"\n🚨 Total failing rows: {len(failing_rows)}")
 
         # Assert to fail if any out-of-bounds rows exist
