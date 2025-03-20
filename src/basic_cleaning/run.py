@@ -22,6 +22,7 @@ def go(args):
     
     run = wandb.init(project="nyc_airbnb", group="cleaning", save_code=True)
     artifact_local_path = run.use_artifact(args.input_artifact).file()
+
     df = pd.read_csv(artifact_local_path)
 
     ##### KIM: FIX - failing due to out-of-bounds data
@@ -32,10 +33,16 @@ def go(args):
 
     # ✅ **Step 3: Filter properties outside NYC boundaries**
     boundary_filter = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.49, 41.2)
-    df = df[boundary_filter].copy()
 
-    # Print the total rows after boundary filter
-    print(f"Total rows after boundary filter: {len(df)}")
+    # Check rows that are outside the boundary
+    out_of_bounds = df[~boundary_filter]
+    print(f"Total rows before boundary filter: {len(df)}")
+    print(f"Rows outside boundary: {len(out_of_bounds)}")
+    if not out_of_bounds.empty:
+        print(out_of_bounds[['id', 'longitude', 'latitude']])
+
+    # Apply the boundary filter to df
+    df = df[boundary_filter].copy()
 
     # ✅ **Debugging: Print any out-of-bound rows**
     out_of_bounds = df[~boundary_filter]
