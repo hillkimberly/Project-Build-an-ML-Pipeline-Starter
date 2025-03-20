@@ -49,7 +49,6 @@ def test_proper_boundaries(data: pd.DataFrame):
 
     idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.49, 41.2)
 
-
     assert np.sum(~idx) == 0
 
 
@@ -63,8 +62,7 @@ def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_th
 
     assert scipy.stats.entropy(dist1, dist2, base=2) < kl_threshold
 
-
-### KIM: TRYING TO FIGURE OUT WHY kl_threshold is not being passed correctly from MLflow pipeline. 
+ 
 def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_threshold: float):
     print(f"DEBUG: Received kl_threshold = {kl_threshold} (type: {type(kl_threshold)})")  # Add this line
 

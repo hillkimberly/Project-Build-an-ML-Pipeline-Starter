@@ -32,6 +32,10 @@ def go(args):
 
     # ✅ **Step 3: Filter properties outside NYC boundaries**
     boundary_filter = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.49, 41.2)
+    df = df[boundary_filter].copy()
+
+    # Print the total rows after boundary filter
+    print(f"Total rows after boundary filter: {len(df)}")
 
     # ✅ **Debugging: Print any out-of-bound rows**
     out_of_bounds = df[~boundary_filter]
