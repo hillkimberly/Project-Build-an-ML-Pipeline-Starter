@@ -38,7 +38,8 @@ and click on `Fork` in the upper right corner. This will create a fork in your G
 repository that is under your control. Now clone the repository locally so you can start working on it:
 
 ```
-git clone https://github.com/[your github username]/Project-Build-an-ML-Pipeline-Starter.git
+UPDATE GIT:
+git clone https://github.com/hillkimberly/Project-Build-an-ML-Pipeline-Starter.git
 ```
 
 and go into the repository:
@@ -69,7 +70,8 @@ then paste your key into this command:
 
 You should see a message similar to:
 ```
-wandb: Appending key for api.wandb.ai to your netrc file: /home/[your username]/.netrc
+UPDATED WandB: https://wandb.ai/hillkimberly-western-governors-university
+wandb: Appending key for api.wandb.ai to your netrc file: /home/hillkimberly-western-governors-university/.netrc
 ```
 
 
