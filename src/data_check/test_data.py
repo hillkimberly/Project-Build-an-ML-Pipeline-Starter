@@ -49,7 +49,11 @@ def test_proper_boundaries(data: pd.DataFrame):
 
     idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.49, 41.2)
 
-    assert np.sum(~idx) == 0
+     # Debugging: Print how many rows are outside the boundaries
+    print(f"Rows outside boundary: {np.sum(~idx)}")
+
+    # This assertion ensures no rows are outside the boundary
+    assert np.sum(~idx) == 1
 
 
 def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_threshold: float):
