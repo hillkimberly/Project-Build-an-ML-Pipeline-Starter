@@ -53,7 +53,7 @@ def test_proper_boundaries(data: pd.DataFrame):
     print(f"Rows outside boundary: {np.sum(~idx)}")
 
     # This assertion ensures no rows are outside the boundary
-    assert np.sum(~idx) == 1
+    assert np.sum(~idx) == 0
 
 
 def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_threshold: float):
