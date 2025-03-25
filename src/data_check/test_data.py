@@ -44,10 +44,10 @@ def test_proper_boundaries(data: pd.DataFrame):
     """
     Test proper longitude and latitude boundaries for properties in and around NYC
     """
-    ### KIM 
-    # idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.5, 41.2)
-
-    idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.49, 41.2)
+    idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.5, 41.2)
+    
+    #KIM 03/25/25 - using the above suggested idx and commenting out my test
+    # idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.49, 41.2)
 
      # Debugging: Print how many rows are outside the boundaries
     print(f"Rows outside boundary: {np.sum(~idx)}")

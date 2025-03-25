@@ -32,7 +32,8 @@ def go(args):
     df['last_review'] = pd.to_datetime(df['last_review'])
 
     # ✅ **Step 3: Filter properties outside NYC boundaries**
-    boundary_filter = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.49, 41.2)
+    # boundary_filter = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.49, 41.2)
+    boundary_filter = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
 
     # Check rows that are outside the boundary
     out_of_bounds = df[~boundary_filter]
