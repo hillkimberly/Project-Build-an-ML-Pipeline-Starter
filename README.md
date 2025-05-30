@@ -1,3 +1,14 @@
+# 🔒 Archived Repository
+
+This repository was originally forked for instructional use only.  
+It has been **replaced** by my original project:  
+👉 [Deploying a Scalable ML Pipeline with FastAPI](https://github.com/hillkimberly/Deploying-a-Scalable-ML-Pipeline-with-FastAPI)
+
+✅ This repo is now archived and will be removed soon.
+
+
+
+
 # Build an ML Pipeline for Short-Term Rental Prices in NYC
 You are working for a property management company renting rooms and properties for short periods of 
 time on various rental platforms. You need to estimate the typical price for a given property based 
